@@ -1,0 +1,36 @@
+<template>
+  <!-- Displaying the content for the single product page -->
+  <div class="about">
+    <!-- Heading indicating the type of page -->
+    <h1>This is Single Product Page</h1>
+    <!-- Displaying the title of the product -->
+    {{ product.title }}
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      product: {}, // Initializing an empty object to store product details
+    };
+  },
+  mounted() {
+    // Fetching the product ID from the route parameters
+    const { id } = this.$route.params;
+    // Constructing the URL to fetch the product details
+    const url = `${import.meta.env.VITE_API}api/${import.meta.env.VITE_PATH}/product/${id}`;
+    // Making a GET request to fetch the product details
+    this.$http
+      .get(url)
+      .then((response) => {
+        // Storing the fetched product details in the 'product' data property
+        this.product = response.data.product;
+      })
+      .catch((err) => {
+        // Alerting an error message if the request fails
+        alert(err.response.data.message);
+      });
+  },
+};
+</script>
